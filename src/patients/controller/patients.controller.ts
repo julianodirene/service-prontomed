@@ -29,6 +29,6 @@ export class PatientsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.patientsService.remove(+id);
+    return this.patientsService.anonymize(+id);
   }
 }
