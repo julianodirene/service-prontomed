@@ -9,4 +9,4 @@ import { Appointment } from '../entities/appointment.entity';
   controllers: [AppointmentsController],
   providers: [AppointmentsService]
 })
-export class AppointmentsModule {}
+export class AppointmentsModule { }

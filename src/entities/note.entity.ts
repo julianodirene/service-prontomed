@@ -7,8 +7,8 @@ export class Appointment {
     id: number;
 
     @Column({ nullable: false })
-    dateTime: Date;
+    appointmentId: number;
 
     @Column({ nullable: false })
-    patientId: number;
+    text: string;
 }

@@ -6,10 +6,10 @@ import { PatientsModule } from './patients/patients.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),  
+    TypeOrmModule.forRoot(),
     PatientsModule,
     AppointmentsModule
   ],
   controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule { }

@@ -3,9 +3,9 @@ import { IsEmail, IsNumberString, IsIn, IsDateString, IsNumber, Length, IsPositi
 export class PatientDto {
 
 	@Length(10, 100)
-	name : string;
+	name: string;
 
-	@IsNumberString({no_symbols: true})
+	@IsNumberString({ no_symbols: true })
 	@Length(11, 11)
 	phone: string;
 
@@ -16,7 +16,7 @@ export class PatientDto {
 	birthDate: Date;
 
 	@IsIn(["M", "F"])
-	sex : Sex;
+	sex: Sex;
 
 	@IsNumber()
 	@IsPositive()
