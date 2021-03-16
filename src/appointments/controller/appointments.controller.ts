@@ -4,6 +4,7 @@ import { AppointmentDto } from '../dto/appointment.dto';
 import { AppointmentsService } from '../service/appointments.service';
 import { ApiTags, ApiNotFoundResponse, ApiOkResponse, ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { Appointment } from 'src/entities/appointment.entity';
+import { GetAppointmentDto } from '../dto/get-appointment.dto';
 
 @ApiTags('appointments')
 @Controller('appointments')
@@ -17,13 +18,13 @@ export class AppointmentsController {
     return this.appointmentsService.create(appointmentDto);
   }
 
-  @ApiOkResponse({ description: 'Retrieved appointments successfully', type: [Appointment] })
+  @ApiOkResponse({ description: 'Retrieved appointments successfully', type: [GetAppointmentDto] })
   @Get()
   findAll() {
     return this.appointmentsService.findAll();
   }
 
-  @ApiOkResponse({ description: 'Retrieved appointment successfully', type: Appointment })
+  @ApiOkResponse({ description: 'Retrieved appointment successfully', type: GetAppointmentDto })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.appointmentsService.findOne(+id);

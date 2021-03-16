@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { PatientDto } from '../dto/patient.dto';
+import { GetPatientDto } from '../dto/get-patient.dto';
 import { PatientsService } from '../service/patients.service';
 import { ApiTags, ApiNotFoundResponse, ApiOkResponse, ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { Patient } from 'src/entities/patient.entity';
@@ -16,13 +17,13 @@ export class PatientsController {
     return this.patientsService.create(patientDto);
   }
 
-  @ApiOkResponse({ description: 'Retrieved patients successfully', type: [Patient] })
+  @ApiOkResponse({ description: 'Retrieved patients successfully', type: [GetPatientDto] })
   @Get()
   findAll() {
     return this.patientsService.findAll();
   }
 
-  @ApiOkResponse({ description: 'Retrieved patient successfully', type: Patient })
+  @ApiOkResponse({ description: 'Retrieved patient successfully', type: GetPatientDto })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.patientsService.findOne(+id);
