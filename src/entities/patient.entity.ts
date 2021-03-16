@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 
 @Entity()
 export class Patient {
@@ -26,9 +26,15 @@ export class Patient {
 
     @Column({ nullable: false })
     weight: number;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 }
 
-enum Sex {
+export enum Sex {
     MALE = "M",
     FEMALE = "F"
 }

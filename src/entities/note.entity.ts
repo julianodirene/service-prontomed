@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
-export class Appointment {
+export class Note {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -11,4 +11,7 @@ export class Appointment {
 
     @Column({ nullable: false })
     text: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

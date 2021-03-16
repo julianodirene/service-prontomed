@@ -1,4 +1,5 @@
 import { IsEmail, IsNumberString, IsIn, IsDateString, IsNumber, Length, IsPositive } from 'class-validator';
+import { Sex } from 'src/entities/patient.entity';
 
 export class PatientDto {
 
