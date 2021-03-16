@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApointmentsModule } from './apointments/apointments.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 import { AppController } from './app.controller';
 import { PatientsModule } from './patients/patients.module';
 
@@ -8,7 +8,7 @@ import { PatientsModule } from './patients/patients.module';
   imports: [
     TypeOrmModule.forRoot(),  
     PatientsModule,
-    ApointmentsModule
+    AppointmentsModule
   ],
   controllers: [AppController],
 })
