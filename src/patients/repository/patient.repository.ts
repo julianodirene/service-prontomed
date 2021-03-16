@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Patient } from "../entity/patient.entity";
+import { Patient } from "../entities/patient.entity";
 
 @EntityRepository(Patient)
 export class PatientRepository extends Repository<Patient> {
@@ -9,6 +9,6 @@ export class PatientRepository extends Repository<Patient> {
         patient.name = "***********";
         patient.phone = "***********";
         patient.email = "***********";
-        return this.update(id, patient);
+        await this.update(id, patient);
     }
 }

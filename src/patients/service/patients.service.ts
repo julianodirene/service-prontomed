@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreatePatientDto } from '../dto/create-patient.dto';
-import { UpdatePatientDto } from '../dto/update-patient.dto';
-import { Patient } from '../entity/patient.entity';
+import { PatientDto } from '../dto/patient.dto';
+import { Patient } from '../entities/patient.entity';
 import { PatientRepository } from '../repository/patient.repository';
 
 @Injectable()
@@ -12,8 +11,8 @@ export class PatientsService {
     private patientsRepository: PatientRepository,
   ) {}
 
-  async create(createPatientDto: CreatePatientDto): Promise<void> {
-    await this.patientsRepository.save(createPatientDto);
+  async create(patientDto: PatientDto): Promise<void> {
+    await this.patientsRepository.save(patientDto);
   }
 
   findAll(): Promise<Patient[]> {
@@ -24,11 +23,11 @@ export class PatientsService {
     return this.patientsRepository.findOne(id);
   }
 
-  async update(id: number, updatePatientDto: UpdatePatientDto) {
-    await this.patientsRepository.update(id, updatePatientDto);
+  async update(id: number, patientDto: PatientDto) {
+    await this.patientsRepository.update(id, patientDto);
   }
 
-  async anonymize(id: number): Promise<void> {
+  anonymize(id: number) {
     this.patientsRepository.anonymize(id);
   }
 }
