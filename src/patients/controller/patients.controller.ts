@@ -30,13 +30,6 @@ export class PatientsController {
     return this.patientsService.findOne(+id);
   }
 
-  @ApiOkResponse({ description: 'Retrieved patient notes successfully', type: GetPatientNotesDto })
-  @ApiNotFoundResponse({ description: "Patient not found" })
-  @Get(':id/notes')
-  findNotes(@Param('id') id: string) {
-    return this.patientsService.findNotes(+id);
-  }
-
   @ApiOkResponse({ description: "Updated successfully" })
   @ApiBadRequestResponse({ description: "Bad Request" })
   @ApiNotFoundResponse({ description: "Patient not found" })

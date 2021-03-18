@@ -18,8 +18,4 @@ export class PatientRepository extends Repository<Patient> {
         patient.email = "***********";
         return this.update(id, patient);
     }
-
-    async findNotes(id: number): Promise<Patient> {
-        return this.findOne(id);
-    }
 }

@@ -29,15 +29,6 @@ export class PatientsService {
     }
   }
 
-  async findNotes(id: number): Promise<Patient> {
-    const patient = await this.patientsRepository.findNotes(id);
-    if (patient == undefined) {
-      throw new NotFoundException();
-    } else {
-      return patient;
-    }
-  }
-
   async update(id: number, patientDto: PatientDto) {
     await this.patientsRepository.update(id, patientDto).then(function (result: UpdateResult) {
       if (result.affected < 1) {

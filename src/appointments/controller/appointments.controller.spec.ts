@@ -1,9 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppointmentsController } from './appointments.controller';
 import { AppointmentsService } from '../service/appointments.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from './../../entities/appointment.entity';
-import { Note } from './../../entities/note.entity';
 import { AppointmentDto } from '../dto/appointment.dto';
 import { AddNoteDto } from '../dto/add-note.dto';
 import { NotFoundException } from '@nestjs/common';

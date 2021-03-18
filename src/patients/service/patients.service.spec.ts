@@ -72,21 +72,6 @@ describe('PatientsService', () => {
 
   });
 
-  describe('findNotes', () => {
-    it('should retrieve patient notes successfully', async () => {
-      const result = new Patient();
-      jest.spyOn(repository, 'findNotes').mockResolvedValueOnce(result);
-      expect(await service.findNotes(12)).toMatchObject(result);
-      expect(repository.findNotes).toBeCalled();
-    });
-
-    // it('should throw NotFoundException when repository not found the patient', () => {
-    //   jest.spyOn(repository, 'findNotes').mockResolvedValueOnce(undefined);
-    //   expect(async () => { await service.findNotes(12) }).toThrow(NotFoundException);
-    // });
-
-  });
-
   describe('update', () => {
     it('should update patient successfully', () => {
       const patient = new PatientDto();

@@ -77,23 +77,6 @@ describe('PatientsController', () => {
     });
   });
 
-  describe('findNotes', () => {
-    it('should retrieve patient notes successfully', async () => {
-      const result = new Patient();
-      jest.spyOn(service, 'findNotes').mockResolvedValueOnce(result);
-      expect(await controller.findNotes('1')).toBe(result);
-      expect(service.findNotes).toBeCalled();
-    });
-
-    it('should throw NotFoundException when service throw NotFoundException', () => {
-      jest.spyOn(service, 'findNotes').mockImplementation((): Promise<Patient> => {
-        throw new NotFoundException()
-      });
-      expect(() => { controller.findNotes('1') }).toThrow(NotFoundException);
-      expect(service.findNotes).toBeCalled();
-    });
-  });
-
   describe('update', () => {
     it('should update patient successfully', () => {
       const patient = new PatientDto();
