@@ -11,7 +11,9 @@ async function bootstrap() {
     .setTitle('ProntoMed')
     .setDescription('ProntoMed API description')
     .setVersion('1.0')
+    .addTag("default")
     .addTag("patients")
+    .addTag("appointments")
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

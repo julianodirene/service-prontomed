@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Appointment } from 'src/entities/appointment.entity';
-import { Note } from 'src/entities/note.entity';
-import { Repository, UpdateResult } from 'typeorm';
+import { Appointment } from './../../entities/appointment.entity';
+import { Note } from './../../entities/note.entity';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { AddNoteDto } from '../dto/add-note.dto';
 import { AppointmentDto } from '../dto/appointment.dto';
 
@@ -16,19 +16,24 @@ export class AppointmentsService {
   ) { }
 
   async create(appointmentDto: AppointmentDto) {
-    await this.appointmentRepository.save(appointmentDto);
+    await this.appointmentRepository.insert(appointmentDto);
   }
 
   findAll(): Promise<Appointment[]> {
     return this.appointmentRepository.find();
   }
 
-  findOne(id: number): Promise<Appointment> {
-    return this.appointmentRepository.findOne(id);
+  async findOne(id: number): Promise<Appointment> {
+    const appointment = await this.appointmentRepository.findOne(id);
+    if (appointment == undefined) {
+      throw new NotFoundException();
+    } else {
+      return appointment;
+    }
   }
 
-  async update(id: number, appointmentDto: AppointmentDto) {
-    await this.appointmentRepository.update(id, appointmentDto).then(function (result: UpdateResult) {
+  update(id: number, appointmentDto: AppointmentDto) {
+    this.appointmentRepository.update(id, appointmentDto).then(function (result: UpdateResult) {
       if (result.affected < 1) {
         throw new NotFoundException();
       }
@@ -36,18 +41,25 @@ export class AppointmentsService {
   }
 
   async remove(id: number) {
-    await this.appointmentRepository.delete(id);
+    await this.appointmentRepository.delete(id).then(function (result: DeleteResult) {
+      if (result.affected < 1) {
+        throw new NotFoundException();
+      }
+    });
   }
 
   async addNote(appointmentId: number, addNoteDto: AddNoteDto) {
-    await this.appointmentRepository.findOne(appointmentId).then(function (appointment: Appointment) {
-      if (appointment == undefined) {
-        throw new NotFoundException
-      }
-    });
+    const appointment = await this.appointmentRepository.findOne(appointmentId);
+    if (appointment == undefined) {
+      throw new NotFoundException
+    }
+
     const note = new Note();
     note.appointmentId = appointmentId;
     note.text = addNoteDto.text;
-    this.noteRepository.save(note);
+
+    this.noteRepository.insert(note);
+
+    console.log(appointmentId);
   }
 }

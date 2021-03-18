@@ -1,5 +1,5 @@
 import { IsEmail, IsNumberString, IsIn, IsDateString, IsNumber, Length, IsPositive } from 'class-validator';
-import { Sex } from 'src/entities/patient.entity';
+import { Sex } from './../../entities/patient.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PatientDto {

@@ -12,6 +12,9 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
+  describe('healthCheck', () => {
+    it('should return status', () => {
+      expect(appController.healthCheck()).toMatchObject({ status: "Up" });
+    });
   });
 });

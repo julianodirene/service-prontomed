@@ -3,7 +3,7 @@ import { AppointmentsService } from './service/appointments.service';
 import { AppointmentsController } from './controller/appointments.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from '../entities/appointment.entity';
-import { Note } from 'src/entities/note.entity';
+import { Note } from './../entities/note.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Appointment, Note])],

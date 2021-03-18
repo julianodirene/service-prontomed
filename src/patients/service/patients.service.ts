@@ -1,31 +1,45 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Patient } from 'src/entities/patient.entity';
+import { Patient } from './../../entities/patient.entity';
 import { UpdateResult } from 'typeorm';
 import { PatientDto } from '../dto/patient.dto';
-import { PatientRepository } from '../repository/patient.repository';
+import { PatientsRepository } from '../repository/patient.repository';
 
 @Injectable()
 export class PatientsService {
   constructor(
     @InjectRepository(Patient)
-    private patientsRepository: PatientRepository,
+    private patientsRepository: PatientsRepository
   ) { }
 
-  async create(patientDto: PatientDto): Promise<void> {
-    await this.patientsRepository.save(patientDto);
+  async create(patientDto: PatientDto) {
+    await this.patientsRepository.insert(patientDto);
   }
 
   findAll(): Promise<Patient[]> {
     return this.patientsRepository.find();
   }
 
-  findOne(id: number): Promise<Patient> {
-    return this.patientsRepository.findOne(id);
+  async findOne(id: number): Promise<Patient> {
+    const patient = await this.patientsRepository.findOne(id);
+    if (patient == undefined) {
+      throw new NotFoundException();
+    } else {
+      return patient;
+    }
   }
 
-  async update(id: number, patientDto: PatientDto) {
-    await this.patientsRepository.update(id, patientDto).then(function (result: UpdateResult) {
+  async findNotes(id: number): Promise<Patient> {
+    const patient = await this.patientsRepository.findNotes(id);
+    if (patient == undefined) {
+      throw new NotFoundException();
+    } else {
+      return patient;
+    }
+  }
+
+  update(id: number, patientDto: PatientDto) {
+    this.patientsRepository.update(id, patientDto).then(function (result: UpdateResult) {
       if (result.affected < 1) {
         throw new NotFoundException();
       }
@@ -33,6 +47,10 @@ export class PatientsService {
   }
 
   anonymize(id: number) {
-    this.patientsRepository.anonymize(id);
+    this.patientsRepository.anonymize(id).then(function (result: UpdateResult) {
+      if (result.affected < 1) {
+        throw new NotFoundException();
+      }
+    });
   }
 }

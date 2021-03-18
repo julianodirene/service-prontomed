@@ -2,7 +2,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Sex } from './../../entities/patient.entity';
 
-export class GetPatientDto {
+export class Note {
+	@ApiProperty()
+	appointmentDate: Date;
+
+	@ApiProperty()
+	text: string
+}
+
+export class GetPatientNotesDto {
 	@ApiProperty()
 	id: number
 
@@ -32,4 +40,7 @@ export class GetPatientDto {
 
 	@ApiProperty()
 	updatedAt: Date
+
+	@ApiProperty()
+	notes: Note[]
 }

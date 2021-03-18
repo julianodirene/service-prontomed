@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { PatientDto } from '../dto/patient.dto';
 import { GetPatientDto } from '../dto/get-patient.dto';
+import { GetPatientNotesDto } from '../dto/get-patient-notes.dto'
 import { PatientsService } from '../service/patients.service';
 import { ApiTags, ApiNotFoundResponse, ApiOkResponse, ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
-import { Patient } from 'src/entities/patient.entity';
 
 @ApiTags('patients')
 @Controller('patients')
@@ -24,9 +24,17 @@ export class PatientsController {
   }
 
   @ApiOkResponse({ description: 'Retrieved patient successfully', type: GetPatientDto })
+  @ApiNotFoundResponse({ description: "Patient not found" })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.patientsService.findOne(+id);
+  }
+
+  @ApiOkResponse({ description: 'Retrieved patient notes successfully', type: GetPatientNotesDto })
+  @ApiNotFoundResponse({ description: "Patient not found" })
+  @Get(':id/notes')
+  findNotes(@Param('id') id: string) {
+    return this.patientsService.findNotes(+id);
   }
 
   @ApiOkResponse({ description: "Updated successfully" })

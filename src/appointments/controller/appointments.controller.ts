@@ -3,7 +3,6 @@ import { AddNoteDto } from '../dto/add-note.dto';
 import { AppointmentDto } from '../dto/appointment.dto';
 import { AppointmentsService } from '../service/appointments.service';
 import { ApiTags, ApiNotFoundResponse, ApiOkResponse, ApiBadRequestResponse, ApiCreatedResponse } from '@nestjs/swagger';
-import { Appointment } from 'src/entities/appointment.entity';
 import { GetAppointmentDto } from '../dto/get-appointment.dto';
 
 @ApiTags('appointments')
