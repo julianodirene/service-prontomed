@@ -5,7 +5,7 @@ import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Note } from './../../entities/note.entity';
 import { Patient } from './../../entities/patient.entity';
 import { PatientDto } from '../dto/patient.dto';
-import { PatientsRepository } from '../repository/patient.repository';
+import { PatientRepository } from '../repository/patient.repository';
 import { PatientsService } from '../service/patients.service';
 import { PatientsController } from './patients.controller';
 

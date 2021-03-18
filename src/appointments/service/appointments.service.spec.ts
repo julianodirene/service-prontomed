@@ -4,7 +4,7 @@ import { Appointment } from './../../entities/appointment.entity';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { AppointmentDto } from '../dto/appointment.dto';
 import { Note } from './../../entities/note.entity';
-import { PatientsRepository } from './../../patients/repository/patient.repository';
+import { PatientRepository } from '../../patients/repository/patient.repository';
 import { AppointmentsService } from './appointments.service';
 import { NotFoundException } from '@nestjs/common';
 import { AddNoteDto } from '../dto/add-note.dto';

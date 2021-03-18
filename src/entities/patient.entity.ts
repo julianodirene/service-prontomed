@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Appointment } from "./appointment.entity";
+
+export enum Sex {
+    MALE = "M",
+    FEMALE = "F"
+}
 
 @Entity()
 export class Patient {
@@ -15,16 +21,16 @@ export class Patient {
     @Column({ nullable: false, length: 100 })
     email: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, type: "date" })
     birthDate: Date;
 
-    @Column({ nullable: false, length: 1 })
+    @Column({ nullable: false, type: "enum", enum: Sex })
     sex: Sex;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
     height: number;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, type: "decimal", precision: 10, scale: 2 })
     weight: number;
 
     @CreateDateColumn()
@@ -32,9 +38,7 @@ export class Patient {
 
     @UpdateDateColumn()
     updatedAt: Date;
-}
 
-export enum Sex {
-    MALE = "M",
-    FEMALE = "F"
+    @OneToMany(() => Appointment, appointment => appointment.patient)
+    appointments: Appointment[];
 }

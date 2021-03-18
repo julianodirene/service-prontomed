@@ -9,10 +9,15 @@ import { PatientsModule } from './patients/patients.module';
     TypeOrmModule.forRoot({
       type: "postgres",
       url: process.env.DATABASE_URL,
-      entities: ['dist/**/*.entity.js'],
-      synchronize: false,
-      ssl: {
-        rejectUnauthorized: false
+      entities: ["dist/**/*.entity.js"],
+      synchronize: true,
+      logging: true,
+      // ssl: {
+      //   rejectUnauthorized: false
+      // },
+      migrations: ["migration/*.js"],
+      cli: {
+        migrationsDir: "migration"
       }
     }),
     PatientsModule,

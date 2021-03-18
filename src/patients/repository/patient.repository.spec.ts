@@ -1,9 +1,8 @@
-import { Patient } from './../../entities/patient.entity';
-import { Repository } from 'typeorm';
-import { PatientsRepository } from './patient.repository';
+import { Patient } from '../../entities/patient.entity';
+import { PatientRepository } from './patient.repository';
 
 describe('PatientRepository', () => {
-  let repository = new PatientsRepository()
+  let repository = new PatientRepository()
 
   it('should be defined', () => {
     expect(repository).toBeDefined();

@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Patient } from './../../entities/patient.entity';
 import { UpdateResult } from 'typeorm';
 import { PatientDto } from '../dto/patient.dto';
-import { PatientsRepository } from '../repository/patient.repository';
+import { PatientRepository } from '../repository/patient.repository';
 
 @Injectable()
 export class PatientsService {
   constructor(
-    @InjectRepository(Patient)
-    private patientsRepository: PatientsRepository
+    @InjectRepository(PatientRepository)
+    private patientsRepository: PatientRepository
   ) { }
 
   async create(patientDto: PatientDto) {
@@ -38,16 +38,16 @@ export class PatientsService {
     }
   }
 
-  update(id: number, patientDto: PatientDto) {
-    this.patientsRepository.update(id, patientDto).then(function (result: UpdateResult) {
+  async update(id: number, patientDto: PatientDto) {
+    await this.patientsRepository.update(id, patientDto).then(function (result: UpdateResult) {
       if (result.affected < 1) {
         throw new NotFoundException();
       }
     });
   }
 
-  anonymize(id: number) {
-    this.patientsRepository.anonymize(id).then(function (result: UpdateResult) {
+  async anonymize(id: number) {
+    await this.patientsRepository.anonymize(id).then(function (result: UpdateResult) {
       if (result.affected < 1) {
         throw new NotFoundException();
       }

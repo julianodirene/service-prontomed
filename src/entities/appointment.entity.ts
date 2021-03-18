@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, OneToMany } from "typeorm"
+import { Note } from "./note.entity";
+import { Patient } from "./patient.entity";
 
 @Entity()
 export class Appointment {
@@ -9,12 +11,15 @@ export class Appointment {
     @Column({ nullable: false })
     dateTime: Date;
 
-    @Column({ nullable: false })
-    patientId: number;
+    @ManyToOne(() => Patient, patient => patient.appointments, { nullable: false })
+    patient: Patient;
 
     @CreateDateColumn()
     createdAt: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @OneToMany(() => Note, note => note.appointment)
+    notes: Note[];
 }

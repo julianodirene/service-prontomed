@@ -50,4 +50,11 @@ export class AppointmentsController {
   addNote(@Param('id') appointmentId: string, @Body() addNoteDto: AddNoteDto) {
     return this.appointmentsService.addNote(+appointmentId, addNoteDto);
   }
+
+  @ApiOkResponse({ description: 'Retrieved notes successfully', type: [GetAppointmentDto] })
+  @Get('patient/:id/notes')
+  findByPatient(@Param('id') patientId: string) {
+    return this.appointmentsService.findByPatient(+patientId);
+  }
+
 }

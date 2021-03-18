@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PatientsRepository } from '../repository/patient.repository';
+import { PatientRepository } from '../repository/patient.repository';
 import { PatientsService } from './patients.service';
 import { PatientDto } from '../dto/patient.dto';
 import { Patient } from './../../entities/patient.entity';
@@ -9,7 +9,7 @@ import { NotFoundException } from '@nestjs/common';
 
 describe('PatientsService', () => {
   let service: PatientsService;
-  let repository: PatientsRepository;
+  let repository: PatientRepository;
 
   let repositoryMock = {
     insert: function (patientDto: PatientDto): Promise<InsertResult> { return },
@@ -31,7 +31,7 @@ describe('PatientsService', () => {
     }).compile();
 
     service = module.get<PatientsService>(PatientsService);
-    repository = module.get<PatientsRepository>(getRepositoryToken(Patient));
+    repository = module.get<PatientRepository>(getRepositoryToken(Patient));
   });
 
   it('should be defined', () => {
