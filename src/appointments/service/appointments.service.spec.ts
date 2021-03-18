@@ -4,26 +4,35 @@ import { Appointment } from './../../entities/appointment.entity';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { AppointmentDto } from '../dto/appointment.dto';
 import { Note } from './../../entities/note.entity';
-import { PatientRepository } from '../../patients/repository/patient.repository';
+import { AppointmentRepository } from '../../appointments/repository/appointment.repository';
 import { AppointmentsService } from './appointments.service';
 import { NotFoundException } from '@nestjs/common';
 import { AddNoteDto } from '../dto/add-note.dto';
+import { Patient } from './../../entities/patient.entity';
 
 describe('AppointmentsService', () => {
     let service: AppointmentsService;
-    let appointmentRepository: Repository<Appointment>;
+    let appointmentRepository: AppointmentRepository;
     let noteRepository: Repository<Note>;
+    let patientRepository: Repository<Patient>;
 
     let appointmentRepositoryMock = {
         insert: function (patientDto: AppointmentDto): Promise<InsertResult> { return },
         find: function (): Promise<Appointment[]> { return },
         findOne: function (id: number): Promise<Appointment> { return },
+        count: function (): Promise<number> { return },
         update: function (id: number, patientDto: AppointmentDto): Promise<UpdateResult> { return },
         delete: function (id: number): Promise<DeleteResult> { return },
+        findOneJoinRelations: function (id: number): Promise<Appointment> { return },
+        findByPatient: function (): Promise<Appointment[]> { return }
     };
 
     let noteRepositoryMock = {
         insert: function (note: Note): Promise<InsertResult> { return },
+    };
+
+    let patientRepositoryMock = {
+        findOne: function (id: number): Promise<Patient> { return },
     };
 
     beforeEach(async () => {
@@ -36,13 +45,18 @@ describe('AppointmentsService', () => {
                 {
                     provide: getRepositoryToken(Note),
                     useValue: noteRepositoryMock
+                },
+                {
+                    provide: getRepositoryToken(Patient),
+                    useValue: patientRepositoryMock
                 }
             ]
         }).compile();
 
         service = module.get<AppointmentsService>(AppointmentsService);
-        appointmentRepository = module.get<Repository<Appointment>>(getRepositoryToken(Appointment));
+        appointmentRepository = module.get<AppointmentRepository>(getRepositoryToken(Appointment));
         noteRepository = module.get<Repository<Note>>(getRepositoryToken(Note));
+        patientRepository = module.get<Repository<Patient>>(getRepositoryToken(Patient));
     });
 
     it('should be defined', () => {
@@ -50,11 +64,15 @@ describe('AppointmentsService', () => {
     });
 
     describe('create', () => {
-        it('should create appointment successfully', () => {
+        it('should create appointment successfully', async () => {
             const appointment = new AppointmentDto();
+            const patient = new Patient();
+            const count = 0;
             const result = new InsertResult();
+            jest.spyOn(patientRepository, 'findOne').mockResolvedValueOnce(patient);
+            jest.spyOn(appointmentRepository, 'count').mockResolvedValueOnce(count);
             jest.spyOn(appointmentRepository, 'insert').mockResolvedValueOnce(result);
-            service.create(appointment);
+            await service.create(appointment);
             expect(appointmentRepository.insert).toBeCalled();
         });
     });
@@ -71,9 +89,9 @@ describe('AppointmentsService', () => {
     describe('findOne', () => {
         it('should retrieve appointment successfully', async () => {
             const result = new Appointment();
-            jest.spyOn(appointmentRepository, 'findOne').mockResolvedValueOnce(result);
+            jest.spyOn(appointmentRepository, 'findOneJoinRelations').mockResolvedValueOnce(result);
             expect(await service.findOne(12)).toMatchObject(result);
-            expect(appointmentRepository.findOne).toBeCalled();
+            expect(appointmentRepository.findOneJoinRelations).toBeCalled();
         });
 
         // it('should throw NotFoundException when repository not found the appointment', () => {
@@ -146,6 +164,15 @@ describe('AppointmentsService', () => {
 
         //     expect(async () => { await service.addNote(223, addNoteDto) }).toThrow(NotFoundException);
         // });
+    });
+
+    describe('findByPatient', () => {
+        it('should retrieve appointments successfully', async () => {
+            const result = [new Appointment(), new Appointment()];
+            jest.spyOn(appointmentRepository, 'findByPatient').mockResolvedValueOnce(result);
+            expect(await service.findByPatient(123)).toBe(result);
+            expect(appointmentRepository.findByPatient).toBeCalled();
+        });
     });
 
 });

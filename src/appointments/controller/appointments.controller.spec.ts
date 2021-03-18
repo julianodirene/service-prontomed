@@ -19,7 +19,8 @@ describe('AppointmentsController', () => {
         findNotes: function (id: number): Promise<Appointment> { return },
         update: function (id: number, patientDto: AppointmentDto) { return },
         remove: function (id: number) { return },
-        addNote: function (appointmentId: number, addNoteDto: AddNoteDto) { return }
+        addNote: function (appointmentId: number, addNoteDto: AddNoteDto) { return },
+        findByPatient: function (): Promise<Appointment[]> { return }
     };
 
     beforeEach(async () => {
@@ -118,6 +119,15 @@ describe('AppointmentsController', () => {
             jest.spyOn(service, 'addNote').mockResolvedValueOnce();
             controller.addNote('1', addNoteDto)
             expect(service.remove).toBeCalled();
+        });
+    });
+
+    describe('findByPatient', () => {
+        it('should retrieve appointments successfully', async () => {
+            const result = [new Appointment(), new Appointment()];
+            jest.spyOn(service, 'findByPatient').mockResolvedValueOnce(result);
+            expect(await controller.findByPatient('123')).toBe(result);
+            expect(service.findByPatient).toBeCalled();
         });
     });
 });

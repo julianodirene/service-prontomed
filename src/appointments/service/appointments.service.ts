@@ -7,14 +7,18 @@ import { AddNoteDto } from '../dto/add-note.dto';
 import { AppointmentDto } from '../dto/appointment.dto';
 import { AppointmentRepository } from '../repository/appointment.repository';
 import { BusyScheduleException } from '../exception/busy-schedule.exception';
+import { PatientNotFoundException } from '../exception/patient-not-found.exception';
+import { Patient } from './../../entities/patient.entity';
 
 @Injectable()
 export class AppointmentsService {
   constructor(
     @InjectRepository(Appointment)
     private appointmentRepository: AppointmentRepository,
+    @InjectRepository(Patient)
+    private patientRepository: Repository<Patient>,
     @InjectRepository(Note)
-    private noteRepository: Repository<Appointment>,
+    private noteRepository: Repository<Note>,
   ) { }
 
   private async isScheduleFree(dateTime: Date) {
@@ -23,7 +27,10 @@ export class AppointmentsService {
   }
 
   async create(appointmentDto: AppointmentDto) {
-    const patient = await this.findOne(appointmentDto.patientId);
+    const patient = await this.patientRepository.findOne(appointmentDto.patientId);
+    if (patient == undefined) {
+      throw new PatientNotFoundException();
+    }
     if (!await this.isScheduleFree(appointmentDto.dateTime)) {
       throw new BusyScheduleException();
     }
