@@ -12,9 +12,9 @@ import { PatientsModule } from './patients/patients.module';
       entities: ["dist/**/*.entity.js"],
       synchronize: true,
       logging: true,
-      // ssl: {
-      //   rejectUnauthorized: false
-      // },
+      ssl: {
+        rejectUnauthorized: false
+      },
       migrations: ["migration/*.js"],
       cli: {
         migrationsDir: "migration"
